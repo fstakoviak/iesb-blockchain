@@ -1,0 +1,19 @@
+[parity]
+chain = "chain.json"
+base_path = "./nodes/data/node00"
+[network]
+port = 30300
+[rpc]
+port = 8540
+apis = ["web3", "eth", "net", "personal", "parity", "parity_set", "traces", "rpc", "parity_accounts"]
+[websockets]
+port = 8450
+
+# [account]
+# unlock = ["0x00a1103c941fc2e1ef8177e6d9cc4657643f274b"]
+# password = ["node.pwds"]
+
+# [mining]
+# usd_per_tx = "0"
+# engine_signer = "0x00a1103c941fc2e1ef8177e6d9cc4657643f274b"
+# reseal_on_txs = "none"
