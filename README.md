@@ -6,6 +6,7 @@ Os softwares necessários para rodar o app são:
     <li> Nodejs/npm: https://nodejs.org/en/</li>
     <li> Truffle Framework (Para fazer deploy e testes do smart contract)</li>
     <li> Curl https://curl.haxx.se/ (Para enviar requisições ao parity pelo terminal) </li>
+    <li> Parity https://wiki.parity.io/Setup </li>
 </ol>
 
 Após instalar o Nodejs: <br>
@@ -31,7 +32,12 @@ Para que o parity reconheça a conta pelo seu nome, use o comando abaixo: <br>
 
     -> curl --data '{"method":"parity_setAccountName","params":["0x00a1103c941fc2e1ef8177e6d9cc4657643f274b","node00"],"id":1,"jsonrpc":"2.0"}' -H "Content-Type: application/json" -X POST localhost:8540
 
-Crie outras contas caso desejado. Pare a execução do nó. Descomente o código no arquivo /nodes/node00/node.toml <br>
+Crie uma conta de usuário (não validador):
+
+    -> curl --data '{"method":"parity_newAccountFromPhrase","params":["user","user"],"id":1,"jsonrpc":"2.0"}' -H "Content-Type: application/json" -X POST localhost:8540
+    -> curl --data '{"method":"parity_setAccountName","params":["0x004ec07d2329997267ec62b4166639513386f32e","user"],"id":1,"jsonrpc":"2.0"}' -H "Content-Type: application/json" -X POST localhost:8540
+
+Pare a execução do nó. Descomente o código no arquivo /nodes/node00/node.toml <br>
 
 Execute o comando: <br>
 
@@ -43,11 +49,12 @@ Com a flag --unlock o nó estará sempre desbloqueado para que se consiga fazer 
 
 Agora que a blockchain esta rodando, em um outro terminal, entre na pasta dapp. Para fazer o deploy do contrato basta executar: <br>
 
-    -> truffle migrate
+    -> truffle migrate --reset
 
 Copie o endereço do contrato e cole em: <br>
 
 webapp/index.js linha 16. Exemplo: <br>
+webapp/apis/products/productsApi.js linha 10. Exemplo: <br>
 
     const contractAdress = "0xe99789A2367F08fEB5ba9553bA54C14C63Ccb583";
 
@@ -59,5 +66,5 @@ Dentro da pasta webapp <br>
     -> npm start
 
 Para fazer login: <br>
-user: node00 <br>
-senha: node00 <br>
+user: user <br>
+senha: user<br>

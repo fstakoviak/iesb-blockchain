@@ -7,13 +7,16 @@ const lodash = require('lodash');
 
 const httpEndpoint = 'http://localhost:8540';
 const web3 = new Web3(httpEndpoint);
-const headers = { 'Content-Type': 'application/json' }
+const headers = { 'Content-Type': 'application/json' };
 const PORT = process.env.PORT || 3000;
 
 const allAccountsInfoRequest = { "method": "parity_allAccountsInfo", "params": [], "id": 1, "jsonrpc": "2.0" };
 
 const contract_abi = require("../dapp/build/contracts/MyContract.json");
-const contractAdress = "0xe99789A2367F08fEB5ba9553bA54C14C63Ccb583";
+const contractAdress = "0x5B6a6Df167cb5DA753fa0eB5BA27f7cbA34f4524";
+
+const products_api = require("./apis/products/productsApi.js");
+const accounts_api = require("./apis/accounts/accountsApi.js");
 
 const MyContract = new web3.eth.Contract(contract_abi.abi, contractAdress);
 
@@ -54,8 +57,6 @@ app.post('/login', async function(req, res) {
     // pega nome de usuário e senha
     let user = req.body.username;
     let pass = req.body.password;
-
-    console.log(user, pass);
     
     let accounts = [];
         
@@ -70,15 +71,11 @@ app.post('/login', async function(req, res) {
             return res.send({ "error": true, "msg": "Usuario nao encontrado" });
         });
 
-    console.log(accounts);
-
     // filtra as contas para seleciona
     // a conta que deseja realizar o login
     let u = accounts.filter(obj => {
         return obj.userName === user;
     });
-
-    console.log(u);
 
     let userAddr;
 
@@ -89,8 +86,6 @@ app.post('/login', async function(req, res) {
         userAddr = u[0].userAddr;
     }
 
-    console.log(userAddr, pass);
-
     // se o parity desbloquear a conta 
     // então o nome de usuário e senha estão corretos
     // e o login é realizado com sucesso
@@ -100,6 +95,7 @@ app.post('/login', async function(req, res) {
             console.log("Account unlocked!");
             req.session.username = user;
             req.session.password = pass;
+            req.session.address  = userAddr;
             console.log(req.session.username);
             return res.status(200).json({ error: false, userData: { name: user, address: userAddr } })
         })
@@ -139,17 +135,7 @@ app.get('/logout', function(req, res) {
 // renderiza a página para realizar um cadastro
 // caso usuário já esteja logado
 // é redirecionado para a dashboard
-app.get('/register', function(req, res) {
-    
-    if (req.session.username) {
-        res.redirect('/dashboard');
-        res.end();
-    } else {
-        res.render('register.html');
-        res.end();
-    }
-
-})
+app.get('/register', accounts_api.getRegister);
 
 // rota para registrar um usuário
 // sua conta no parity é criada
@@ -222,6 +208,17 @@ app.post('/register', async function(req, res) {
     }
 
 })
+
+// * Página de produtos * //
+
+app.get("/addProducts", products_api.renderAddProducts);
+app.get("/getProducts", products_api.renderGetProducts);
+
+app.post("/addProducts", products_api.addProducts);
+app.get("/listProducts", products_api.listProducts);
+
+// * Adicionar produtos a uma etapa * //
+app.post("/addToStage", products_api.addProductToStage);
 
 app.listen(PORT, function() {
     console.log(`App listening on port ${PORT}`);
