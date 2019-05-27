@@ -54,6 +54,7 @@ Agora que a blockchain esta rodando, em um outro terminal, entre na pasta dapp. 
 Copie o endereço do contrato e cole em: <br>
 
 webapp/index.js linha 16. Exemplo: <br>
+webapp/apis/accounts/accountsApi.js linha 10. Exemplo: <br>
 webapp/apis/products/productsApi.js linha 10. Exemplo: <br>
 
     const contractAdress = "0xe99789A2367F08fEB5ba9553bA54C14C63Ccb583";

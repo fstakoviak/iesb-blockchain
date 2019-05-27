@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 const allAccountsInfoRequest = { "method": "parity_allAccountsInfo", "params": [], "id": 1, "jsonrpc": "2.0" };
 
 const contract_abi = require("../dapp/build/contracts/MyContract.json");
-const contractAdress = "0x5B6a6Df167cb5DA753fa0eB5BA27f7cbA34f4524";
+const contractAdress = "CONTRACT_ADDRESS";
 
 const products_api = require("./apis/products/productsApi.js");
 const accounts_api = require("./apis/accounts/accountsApi.js");
