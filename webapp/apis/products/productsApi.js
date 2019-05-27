@@ -7,7 +7,7 @@ const atob = require("atob");
 const product_abi = require(path.resolve("../dapp/build/contracts/MyContract.json"));
 const httpEndpoint = 'http://localhost:8540';
 
-let contractAddress = '0x5B6a6Df167cb5DA753fa0eB5BA27f7cbA34f4524';
+let contractAddress = 'CONTRACT_ADDRESS';
 
 let web3 = new Web3(httpEndpoint);
 let MyContract = new web3.eth.Contract(product_abi.abi, contractAddress);
