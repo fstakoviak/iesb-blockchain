@@ -12,6 +12,9 @@ Os softwares necessários para rodar o app são:
 Após instalar o Nodejs: <br>
 
     -> npm install -g truffle
+    
+Para usuários Windows, execute o shell como administrador <br>
+    
     -> npm install --global windows-build-tools --unsafe
 
 ### Instruções
