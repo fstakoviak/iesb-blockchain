@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="/css/layouts/side-menu.css">
     <!--<![endif]-->
 
-    <script src="/js/addProducts.js"></script>
+    <script src="/js/listStages.js"></script>
 </head>
 <body>
 
@@ -45,27 +45,17 @@
 
         <div id="main">
             <div class="header">
-                <h1> Cadastro de Produtos </h1>
+                <h1> Lista de Etapas </h1>
             </div>
 
             <div class="content" style="margin-top: 5%">
                 <div class="row justify-content-center">
-                    <div class="col-md-7">
-                        <form id="addProducts">
-                            <div class="form-group">
-                                <label for="produto">Produto:</label>
-                                <input type="text" class="form-control" id="produto" placeholder="Descrição do produto" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="preco">Preço:</label>
-                                <input type="number" min="1" class="form-control" id="preco" placeholder="Preço do produto" required>
-                            </div>
-        
-                            <button id="load" type="submit" class="btn btn-primary btn-block">Adicionar</button>
-                        </form>
+                    <div class="col-md-10">
+                        <div class="accordion" id="accordionStages">
+                            
+                        </div>
                     </div>
                 </div>
-
             </div>
             
             

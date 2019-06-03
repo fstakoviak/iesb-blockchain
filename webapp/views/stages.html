@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="/css/layouts/side-menu.css">
     <!--<![endif]-->
 
-    <script src="/js/addProducts.js"></script>
+    <script src="/js/addStage.js"></script>
 </head>
 <body>
 
@@ -45,34 +45,38 @@
 
         <div id="main">
             <div class="header">
-                <h1> Cadastro de Produtos </h1>
+                <h1>Cadastro de Etapas</h1>
             </div>
 
             <div class="content" style="margin-top: 5%">
                 <div class="row justify-content-center">
                     <div class="col-md-7">
-                        <form id="addProducts">
+                        <form id="addStage">
                             <div class="form-group">
-                                <label for="produto">Produto:</label>
-                                <input type="text" class="form-control" id="produto" placeholder="Descrição do produto" required>
+                                <label for="produto">Etapa:</label>
+                                <input type="text" class="form-control" id="desc" placeholder="Descrição da etapa" required>
                             </div>
-                            <div class="form-group">
-                                <label for="preco">Preço:</label>
-                                <input type="number" min="1" class="form-control" id="preco" placeholder="Preço do produto" required>
-                            </div>
+                            
+                            <label for="products-table"> Selecione produtos para esta etapa:</label>
+                            <table id="products-table" class="table table-dark">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Option</th>
+                                        <th scope="col">Produto</th>
+                                        <th scope="col">Preço</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
         
-                            <button id="load" type="submit" class="btn btn-primary btn-block">Adicionar</button>
+                            <button id="load" class="btn btn-primary" type="submit"> Adicionar para etapa </button>
                         </form>
                     </div>
                 </div>
-
             </div>
-            
-            
-        <!-- End main -->
         </div>
-
-    <!-- End layout -->
     </div>
             
     <script src="/js/ui.js"></script>

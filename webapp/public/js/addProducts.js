@@ -28,6 +28,9 @@ function addProduct() {
         // verifica resposta do servidor
         if (!res.error) {
             console.log("*** Views -> js -> produtos.js -> addProduct: ***", res.msg);            
+            // limpa dados do formulário
+            $("#produto").val("");
+            $("#preco").val("");
             
             // remove atributo disabled do botao
             $('#load').attr('disabled', false);
@@ -38,7 +41,5 @@ function addProduct() {
         }
 
     });
-
-    alert("Seu produto será cadastrado em breve. Verifique a lista de produtos.");
-    $('#load').attr('disabled', false);
+    
 }
