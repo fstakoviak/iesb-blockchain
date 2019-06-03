@@ -1,64 +1,12 @@
 window.addEventListener("load", function() {
 
-    // restaga formulário de login
-    let form = document.getElementById("addToStage");
-
-    // adiciona uma função para
-    // fazer o login quando o 
-    // formulário for submetido
-    form.addEventListener('submit', addToStage);
-
+    // função para carregar produtos
     getProducts();
 })
 
-function addToStage(event) {
-    event.preventDefault();
-    console.log("*** Adding to Stage ***");
-
-    // bloqueia botão
-    $('#load').attr('disabled', 'disabled');
-
-    // pega o valor dos checkboxes selecionados
-    // e adiciona no array productsIds
-    let productsIds = [];
-    $.each($("input[name='produto']:checked"), function() {
-        let id = $(this).val();
-        productsIds.push(parseInt(id, 10));
-    });
-
-    // verifica se há checkboxes selecionados
-    if (productsIds.length === 0) {
-        alert("Nenhum produto selecionado");
-        $('#load').attr('disabled', false);
-        return;
-    }
-
-    // resgata a descrição da etapa
-    let StageDesc = $("#desc").val();
-
-    // reset os checkboxes
-    $('input[type=checkbox]').prop('checked', false);
-    console.log(productsIds, StageDesc);
-
-    // dados para enviar ao servidor
-    const data = { productsIds, StageDesc }
-
-    $.post("/addToStage", data, function(res) {
-        console.log(res);
-        if (!res.error) {
-            alert(res.msg);
-            $('#load').attr('disabled', false);
-        } else {
-            alert(res.msg);
-            $('#load').attr('disabled', false);
-        }
-    })
-
-    alert("Etapa registrada com sucesso");
-    $('#load').attr('disabled', false);
-}
-
 function getProducts() {
+    console.log("*** Getting Products ***");
+
     $.get("/listProducts", function(res) {
         
         if (!res.error) {
