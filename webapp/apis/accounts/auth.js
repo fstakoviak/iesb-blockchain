@@ -1,14 +1,23 @@
 const Web3 = require("web3");
 const axios = require("axios");
 const lodash = require("lodash");
+const path = require("path");
 
 const allAccountsInfo = require('../../utils/parityRequests').allAccountsInfoRequest;
 const httpEndpoint = require('../../utils/nodesEndPoints').node00Endpoint;
 const parityRequest = require('../../utils/parityRequests');
 const headers = require('../../utils/parityRequests').headers;
-const ownerAccount = require('../../utils/parityRequests');
+let contractAddress = 'CONTRACT_ADDRESS';
+const product_abi = require(path.resolve("../dapp/build/contracts/MyContract.json"));
 
-const web3 = new Web3(httpEndpoint);
+const OPTIONS = {
+    defaultBlock: "latest",
+    transactionConfirmationBlocks: 1,
+    transactionBlockTimeout: 5
+};
+
+const web3 = new Web3(httpEndpoint, null, OPTIONS);
+let MyContract = new web3.eth.Contract(product_abi.abi, contractAddress);
 
 function renderIndex(req, res) {
     if (req.session.username) {
@@ -57,13 +66,11 @@ async function register(req, res) {
         let NewAccountResponse = await axios.post(httpEndpoint, newAccountRequest, { 'headers': headers });
         accountAddress = NewAccountResponse.data.result;
         console.log("Account created " + JSON.stringify(NewAccountResponse.data.result));
-
+        console.log(typeof(accountAddress));
         // Registra o nome da conta de usuário no parity
         let setAccountNameRequest = { "method": "parity_setAccountName", "params": [accountAddress, name], "id": 1, "jsonrpc": "2.0" };
         let setAccountNameResponse = await axios.post(httpEndpoint, setAccountNameRequest, { 'headers': headers });
         console.log("Account name setup status: %s", JSON.stringify(setAccountNameResponse.data.result));
-
-        res.status(200).json({ 'error': false, 'msg': 'Conta criada com sucesso.'});
 
         // Desbloqueia a conta do usuário para salvar seus dados
         // Ex: email
@@ -73,13 +80,9 @@ async function register(req, res) {
         if (unlockResponse) {
 
             // tranfere 1 ether para a conta do usuário
-            let sendFundsResponse;
+            let sendFundsResponse = null;
             
-            await web3.eth.sendTransaction({from: ownerAccount, to: accountAddress, value: "0xDE0B6B3A7640000"})
-                .then(receipt => {
-                    console.log("", receipt);
-                    sendFundsResponse = true;
-                })
+            sendFundsResponse = await web3.eth.sendTransaction({from: "0x00a1103c941fc2e1ef8177e6d9cc4657643f274b", to: accountAddress, value: web3.utils.toWei("1", "ether")})
 
             console.log("*** sendFundsResponse ***", sendFundsResponse);
 
@@ -88,7 +91,7 @@ async function register(req, res) {
                     .send({ from: accountAddress, gas: 3000000 })
                     .then(function(result) {
                         console.log("*** Usuário registrado ***");
-                        return res.end();
+                        return res.status(200).json({ 'error': false, 'msg': 'Conta criada com sucesso.'});
                     })
                     .catch(function (error) {
                         console.log("+++ Erro ao salvar e-mail +++");
