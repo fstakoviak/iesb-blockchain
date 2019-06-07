@@ -12,7 +12,11 @@ Os softwares necessários para rodar o app são:
 
 Após instalar o Nodejs: <br>
 
-    npm install -g truffle
+Remover o truffle e instalar versão beta: <br>
+
+    npm uninstall -g truffle
+    
+    npm install -g truffle@beta
     
 Para usuários Windows, execute o shell como administrador <br>
     
