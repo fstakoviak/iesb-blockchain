@@ -44,6 +44,10 @@ Crie uma conta de usuário (não validador):
 
 Pare a execução do nó. Descomente o código no arquivo /nodes/node00/node.toml <br>
 
+Execute o nó com o comando: <br>
+
+    parity --config nodes/node00/node.toml 
+
 #### Para fazer o deploy do contrato
 
 Agora que a blockchain esta rodando, em um outro terminal, entre na pasta dapp. Para fazer o deploy do contrato basta executar: <br>
