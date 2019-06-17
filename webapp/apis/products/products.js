@@ -41,7 +41,7 @@ module.exports = {
         let userAddr = req.session.address;
         console.log("*** Getting products ***", userAddr);
 
-        await MyContract.methods.getProducts(userAddr)
+        await MyContract.methods.getProducts()
             .call({ from: userAddr, gas: 3000000 })
             .then(function (prod) {
 
@@ -52,11 +52,7 @@ module.exports = {
 
                 let produtos = [];
                 for (i = 0; i < prod['0'].length; i++) {
-                    // deleted products have id == 0
-                    // return only ids > 0
-                    if (!(+prod['0'][i] == 0)) {
-                        produtos.push({ 'id': +prod['0'][i], 'produto': prod['1'][i], 'addr': prod['2'][i], 'preco': +prod['3'][i] });
-                    }
+                    produtos.push({ 'id': +prod['0'][i], 'produto': prod['1'][i], 'addr': prod['2'][i], 'preco': +prod['3'][i] });
                 }
 
                 console.log("produtos", produtos);

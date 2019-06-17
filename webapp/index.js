@@ -5,6 +5,7 @@ const app = express();
 
 const products = require("./apis/products/products.js");
 const stages = require("./apis/products/stages");
+const history = require("./apis/products/history.js");
 
 // set default views folder
 app.set('views', __dirname + "/views");
@@ -44,6 +45,12 @@ app.get("/getStages", stages.renderGetStages);
 app.post("/addStage", stages.addStage);
 app.get("/listStages", stages.listStages);
 
+// * History * //
+app.get("/addHistory", history.renderAddHistory);
+app.post("/addHistory", history.addToHistory);
+
+app.get("/getHistory", history.getHistory);
+app.get("/listHistory", history.renderGetHistory);
 
 const PORT = process.env.PORT || 3000;
 

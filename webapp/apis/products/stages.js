@@ -85,7 +85,7 @@ async function listStages(req, res) {
 
     let userAddr = req.session.address;
     
-    await MyContract.methods.getStages(userAddr)
+    await MyContract.methods.getStages()
         .call({ from: userAddr, gas: 3000000 })
         .then(async function(stages) {
             if (stages === null) {
@@ -142,5 +142,6 @@ module.exports = {
     renderAddStage,
     renderGetStages,
     addStage,
-    listStages
+    listStages,
+    productInfo
 }

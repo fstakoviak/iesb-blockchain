@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="/css/layouts/side-menu.css">
     <!--<![endif]-->
 
-    <script src="/js/listProducts.js"></script>
+    <script src="/js/addToHistory.js"></script>
 </head>
 <body>
 
@@ -47,25 +47,28 @@
 
         <div id="main">
             <div class="header">
-                <h1> Lista de Produtos </h1>
+                <h1> Cadastrar Histórico </h1>
             </div>
 
             <div class="content" style="margin-top: 5%">
                 <div class="row justify-content-center">
-                    <div class="col-md-10">
-                        <table id="products-table" class="table table-dark">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Option</th>
-                                    <th scope="col">Produto</th>
-                                    <th scope="col">Preço</th>
-                                    <th scope="col">Owner</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                    <div class="col-md-6">
+                        <form id="addToSelect">
+                            <div class="form-group">
+                                <label for="stageSelect">Etapas: </label>
+                                <select id="stageSelect" class="custom-select">
                                 
-                            </tbody>
-                        </table>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="productSelect">Produtos: </label>
+                                <select id="productSelect" class="custom-select">
+                                
+                                </select>
+                            </div>
+
+                            <button id="load" type="submit" class="btn btn-primary btn-block">Adicionar</button>
+                        </form>
                     </div>
                 </div>
             </div>
