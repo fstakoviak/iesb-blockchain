@@ -59,7 +59,6 @@ Copie o endereço do contrato e cole em: <br>
 webapp/apis/accounts/auth.js linha 10. <br>
 webapp/apis/products/history.js linha 7. <br>
 webapp/apis/products/products.js linha 7. <br>
-webapp/apis/products/stages.js linha 7. <br>
 
     const contractAdress = "CONTRACT_ADDRESS";
 
