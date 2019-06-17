@@ -44,7 +44,6 @@ app.get("/getStages", stages.renderGetStages);
 app.post("/addStage", stages.addStage);
 app.get("/listStages", stages.listStages);
 
-
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, function() {

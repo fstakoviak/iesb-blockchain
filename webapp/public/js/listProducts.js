@@ -22,14 +22,18 @@ function getProducts() {
             for (let i = 0; i < produtos.length; i++) {
                 let newRow = $("<tr>");
                 let cols = "";
+                let desc = produtos[i].produto;
+                let preco = produtos[i].preco;
+                let owner = produtos[i].addr;
 
                 cols += `<td width="60"> 
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="produto" value="${produtos[i].id}" id="addToStageCheck">
                     </div>
                 </td>`;
-                cols += `<td> ${produtos[i].produto} </td>`;
-                cols += `<td> ${produtos[i].preco} </td>`;
+                cols += `<td> ${desc} </td>`;
+                cols += `<td> ${preco} </td>`;
+                cols += `<td> ${owner.substring(1, 10)} </td>`;
                 
                 newRow.append(cols);
                 $("#products-table").append(newRow);

@@ -1,7 +1,7 @@
 window.addEventListener("load", function() {
 
     
-    // restaga formulário de login
+    // restaga formulário de produtos
     let form = document.getElementById("addProducts");
 
     // adiciona uma função para
