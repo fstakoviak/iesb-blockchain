@@ -9,8 +9,6 @@ contract MyContract {
     event productRegistered(uint id);
     // evento para notificar o cliente de que a Etapa foi registrada
     event StageRegistered(uint[]);
-    // evento para notificar o cliente de que um histórico foi registrado
-    event historyRegistered(string _msg);
 
     // estrutura para manter dados do usuário
     struct User {
@@ -33,14 +31,6 @@ contract MyContract {
         address owner;
     }
 
-    // estrutura para manter dados de um histórico
-    struct History {
-        uint[] products;
-        string stage;
-        string date;
-        address owner;
-    }
-
     // mapeia um id a um produto
     mapping (uint => Product) products;
     uint[] public productsIds;
@@ -49,16 +39,12 @@ contract MyContract {
     mapping(uint => Stage) stages;
     uint[] public stagesIds;
 
-    mapping (uint => History) histories;
-    uint[] public historiesIds;
-
     // mapeia endereço do usuário a sua estrutura
     mapping (address => User) users;
 
     // state variables
     uint256 private lastId = 0;
     uint256 private stagesId = 0;
-    uint256 private historyId = 0;
 
     // função para cadastrar conta do usuário
     function setUser(address _addr, string memory _email) public {
@@ -84,45 +70,6 @@ contract MyContract {
         productsIds.push(lastId);
         lastId++;
         emit productRegistered(lastId);
-    }
-
-    // função para adicionar o histórico de um produto
-    function addToHistory(uint[] memory _productIds, string memory _stage, string memory _date) public {
-        require(bytes(_stage).length >= 1, "invalid stage");
-
-        histories[historyId] = History(_productIds, _stage, _date, msg.sender);
-        historiesIds.push(historyId);
-        historyId++;
-        emit historyRegistered("History saved!");
-    }
-
-    function historyInfo(uint _id) public view returns (uint[] memory, string memory, string memory, address) {
-        require(_id <= historyId, "History does not exist");
-
-            History memory his = histories[_id];
-
-            return (
-                his.products,
-                his.stage,
-                his.date,
-                his.owner
-            );
-    }
-
-    function getHistory() public view returns (uint[][] memory, string[] memory, string[] memory, address[] memory) {
-
-        uint[] memory ids = historiesIds;
-
-        uint[][] memory productsOnHistory = new uint[][](ids.length);
-        string[] memory stagesDesc = new string[](ids.length);
-        string[] memory dates = new string[](ids.length);
-        address[] memory owners = new address[](ids.length);
-
-        for (uint i = 0; i < ids.length; i++) {
-            (productsOnHistory[i], stagesDesc[i], dates[i], owners[i]) = historyInfo(i);
-        }
-
-        return (productsOnHistory, stagesDesc, dates, owners);
     }
 
     // função para resgatar info de um produto
