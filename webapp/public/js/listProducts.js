@@ -26,14 +26,14 @@ function getProducts() {
                 let preco = produtos[i].preco;
                 let owner = produtos[i].addr;
 
-                cols += `<td width="60"> 
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="produto" value="${produtos[i].id}" id="addToStageCheck">
-                    </div>
-                </td>`;
                 cols += `<td> ${desc} </td>`;
                 cols += `<td> ${preco} </td>`;
                 cols += `<td> ${owner.substring(1, 10)} </td>`;
+                cols += `<td align="center"> 
+                    <span style="font-size: 1em; color: Dodgerblue; cursor: pointer; ">
+                        <a href="/editProduct?id=${produtos[i].id}"><i class="fas fa-edit"></i></a>
+                    </span>
+                </td>`
                 
                 newRow.append(cols);
                 $("#products-table").append(newRow);
