@@ -4,7 +4,7 @@ const Web3 = require("web3");
 const product_abi = require(path.resolve("../dapp/build/contracts/MyContract.json"));
 const httpEndpoint = 'http://localhost:8540';
 
-let contractAddress = '0x43d87A6d3CF857B78a545603CBf104318cAF8338';
+let contractAddress = require('../../utils/parityRequests').contractAddress;
 
 const OPTIONS = {
     defaultBlock: "latest",
@@ -36,8 +36,17 @@ module.exports = {
             res.render('listaProdutos.html');
         }
     },
+    renderEditProduct: function(req, res) {
+        // verifica se usuario esta logado
+        if (!req.session.username) {
+            res.redirect('/api/auth');
+            res.end();
+        } else {
+            res.render('editProduct.html');
+        }
+    },
     getProducts: async function(req, res) {
-
+        console.log(contractAddress)
         let userAddr = req.session.address;
         console.log("*** Getting products ***", userAddr);
 
@@ -96,6 +105,42 @@ module.exports = {
                         })
                 } 
             } catch (err) {
+                return res.send({ 'error': true, 'msg': 'Erro ao desbloquear sua conta. Por favor, tente novamente mais tarde.'});
+            }
+        }
+    },
+    updateProduct: async (req, res) => {
+        
+        if (!req.session.username) {
+            res.redirect('/');
+            res.end();
+        } else {
+        
+            let productId = req.body.productId;
+            let newDesc   = req.body.newDesc;
+            let newPrice  = req.body.newPrice;
+            let userAddr  = req.session.address;
+            let pass      = req.session.password;
+
+            console.log("apis -> products -> updateProduct: ", userAddr, productId, newDesc, newPrice);
+
+            try {
+                let accountUnlocked = await web3.eth.personal.unlockAccount(userAddr, pass, null)
+                console.log("Account unlocked?", accountUnlocked);
+                if (accountUnlocked) {
+
+                    await MyContract.methods.updateProduct(productId, newDesc, newPrice)
+                        .send({ from: userAddr, gas: 3000000 })
+                        .then(receipt => {
+                            console.log(receipt);
+                            return res.send({ 'error': false, 'msg': 'Produto atualizado com sucesso.'}); 
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            return res.json({ 'error': true, msg: "erro ao se comunar com o contrato"});
+                        })
+                }
+            } catch (error) {
                 return res.send({ 'error': true, 'msg': 'Erro ao desbloquear sua conta. Por favor, tente novamente mais tarde.'});
             }
         }
