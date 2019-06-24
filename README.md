@@ -54,6 +54,10 @@ Agora que a blockchain esta rodando, em um outro terminal, entre na pasta dapp. 
 
     truffle migrate --reset
 
+Pare a execução do nó. Execute o nó com o comando: <br>
+
+    parity --config nodes/node00/node.toml
+
 #### Para executar o app
 
 Dentro da pasta webapp <br>
