@@ -75,6 +75,34 @@ module.exports = {
             })
         
     },
+    getProduct: async function(req, res){
+
+        console.log(contractAddress)
+        let userAddr = req.session.address;
+        console.log("*** Getting product ***", userAddr);
+        console.log(req);
+
+        await MyContract.methods.productInfo(req.query.id)
+            .call({ from: userAddr, gas: 3000000 })
+            .then(function (prod) {
+
+                console.log("prod", prod);
+                if (prod === null) {
+                    return res.send({ error: false, msg: "no products yet"});
+                }
+
+                let produto = { 'id': + prod['0'], 'produto': prod['1'], 'addr': prod['2'], 'preco': +prod['3'] }
+
+                console.log("produto", produto);
+
+                res.send({ error: false, msg: "produtos resgatado com sucesso", produto});
+                return true;
+            })
+            .catch(error => {
+                console.log("*** productsApi -> getProduct ***error:", error);
+                res.send({ error: true, msg: error});
+            })
+    },
     addProducts: async function(req, res) {
 
         if (!req.session.username) {

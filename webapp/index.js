@@ -39,6 +39,7 @@ app.get("/editProduct", products.renderEditProduct);
 app.post("/addProducts", products.addProducts);
 app.post("/updateProduct", products.updateProduct);
 app.get("/listProducts", products.getProducts);
+app.get("/getProduct", products.getProduct);
 
 // * Estágios * //
 app.get("/addStage", stages.renderAddStage);

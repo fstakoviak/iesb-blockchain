@@ -15,7 +15,34 @@ window.addEventListener('load', () => {
     // fazer o login quando o 
     // formulário for submetido
     form.addEventListener('submit', updateProduct);
+
+    getProduct(productId);
 });
+
+function getProduct(id) {
+    console.log("*** Getting Products ***");
+
+    $.get("/getProduct", {id: id}, function(res) {
+        
+        if (!res.error) {
+            console.log("*** Views -> js -> produtos.js -> getProduct: ***", res.msg);
+
+            if (res.msg === "no products yet") {
+                return;
+            }
+
+            let produto = res.produto;
+
+            $('#produto').val(produto.produto);
+            $('#preco').val(produto.preco);
+
+            
+        } else {
+            alert("Erro ao resgatar produtos do servidor. Por favor, tente novamente mais tarde. " + res.msg);
+        }
+
+    })
+}
 
 function updateProduct(event) {
     event.preventDefault();
