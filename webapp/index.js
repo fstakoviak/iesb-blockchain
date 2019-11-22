@@ -7,6 +7,8 @@ const products = require("./apis/products/products.js");
 const stages = require("./apis/products/stages");
 const history = require("./apis/products/history.js");
 
+const formVeiculo = require("./apis/veiculos/formVeiculo.js");
+
 // set default views folder
 app.set('views', __dirname + "/views");
 app.engine('html', require('ejs').renderFile);
@@ -54,6 +56,8 @@ app.post("/addHistory", history.addHistory);
 
 app.get("/getHistory", history.getHistory);
 app.get("/listHistory", history.renderGetHistory);
+
+app.get("/formVeiculo", formVeiculo.renderAddVeiculo)
 
 const PORT = process.env.PORT || 3000;
 
