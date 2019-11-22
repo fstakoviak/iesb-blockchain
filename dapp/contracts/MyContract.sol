@@ -13,6 +13,9 @@ contract MyContract {
     event historyRegistered(string _msg);
     // evento para notificar o cliente de que um produto foi atualizado
     event productUpdated(uint _productId, string _msg);
+    
+    event veiculoRegistered(uint _veiculoId);
+
 
     // estrutura para manter dados do usuário
     struct User {
@@ -43,6 +46,20 @@ contract MyContract {
         address productOwner;
     }
 
+    // estrutura para manter os dados de um veículo
+    struct Veiculo
+    {
+        uint id;
+        string placa;
+        string renavam;
+        string chassi;
+        string cor;
+        string modelo;
+        uint anoFabricacao;
+        uint potencia;
+        address productOwner;
+    }
+
     // mapeia um id a um produto
     mapping (uint => Product) products;
     uint[] public productsIds;
@@ -55,6 +72,10 @@ contract MyContract {
     uint[] public historiesIds;
     uint[] public productsInHistory;
 
+    //mapeia um id a um veículo
+    mapping (uint => Veiculo) veiculos;
+    uint[] public veiculosIds;
+
     // mapeia endereço do usuário a sua estrutura
     mapping (address => User) users;
 
@@ -62,6 +83,8 @@ contract MyContract {
     uint256 private lastId = 0;
     uint256 private stagesId = 0;
     uint256 private historyId = 0;
+    
+    uint256 private veiculoId = 0;
 
     // função para cadastrar conta do usuário
     function setUser(address _addr, string memory _email) public {
@@ -69,13 +92,26 @@ contract MyContract {
         user.email = _email;
 
         // notifica o cliente através do evento
-        emit userRegisted(_addr, "Conta registrada!");
+        emit userRegisted(_addr, "Conta registrada com sucesso!");
     }
 
     // função para resgatar dados do usuário
     function getUser(address _addr) public view returns(string memory) {
         User memory user = users[_addr];
         return (user.email);
+    }
+
+    // função para cadastrar um veiculo
+    function addVeiculo(Veiculo memory _veiculo) public {
+        //fazer as validações de campos obrigatórios 
+
+        _veiculo.id = veiculoId;
+
+        veiculos[veiculoId] = _veiculo;
+        veiculosIds.push(veiculoId);
+
+        veiculoId++;
+        emit veiculoRegistered(veiculoId - 1);
     }
 
     // função para cadastrar um produto
@@ -113,7 +149,7 @@ contract MyContract {
             require(_id <= lastId, "Product does not exist");
 
             Product memory product = products[_id];
-
+            
             return (
                 product.id,
                 product.desc,
